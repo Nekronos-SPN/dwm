@@ -28,8 +28,11 @@ mem() {
 
 wlan() {
 	case "$(cat /sys/class/net/wl*/operstate 2>/dev/null)" in
-	up) printf "^c$black^ ^b$blue^ 󰤨 ^d^%s" " ^c$blue^Connected" ;;
-	down) printf "^c$black^ ^b$blue^ 󰤭 ^d^%s" " ^c$blue^Disconnected" ;;
+	up) 
+		ip_addr=$(ip addr show wlp3s0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}') ;
+		printf "^c$black^ ^b$blue^ 󰤨 ^d^%s" " ^c$green^$ip_addr" ;;
+	down) 
+		printf "^c$black^ ^b$blue^ 󰤭 ^d^%s" " ^c$blue^Disconnected" ;;
 	esac
 }
 
